@@ -279,6 +279,7 @@
         }
 
         @media (max-width: 600px) {
+
             body {
                 padding: 12px;
             }
@@ -305,11 +306,15 @@
 
 <body>
 
-    <div class="bingo-bg-alert" id="bg-bingo-text">BINGO!</div>
+    <div class="bingo-bg-alert" id="bg-bingo-text">
+        BINGO!
+    </div>
 
     <header>
         <h1>Eurovision 2026</h1>
-        <div class="subtitle">Grand Final Live Bingo</div>
+        <div class="subtitle">
+            Grand Final Live Bingo
+        </div>
     </header>
 
     <div class="score-banner" id="score-counter-banner">
@@ -318,11 +323,15 @@
     </div>
 
     <!-- MENU -->
+
     <div class="screen active" id="menu-screen">
+
         <div class="menu-box">
+
             <h2>Select Your Board Size</h2>
 
             <div class="menu-options">
+
                 <button class="btn btn-secondary" onclick="startGame(3)">
                     Easy (3x3)
                 </button>
@@ -334,11 +343,15 @@
                 <button class="btn btn-primary" onclick="startGame(5)">
                     Hard (5x5)
                 </button>
+
             </div>
+
         </div>
+
     </div>
 
     <!-- GAME -->
+
     <div class="screen" id="game-screen">
 
         <div class="grid-container">
@@ -346,6 +359,7 @@
         </div>
 
         <div class="controls">
+
             <button class="btn btn-primary" onclick="returnToMenu()">
                 Main Menu
             </button>
@@ -353,11 +367,13 @@
             <button class="btn btn-secondary" onclick="clearCard()">
                 Reset Marks
             </button>
+
         </div>
 
     </div>
 
-    <!-- MODAL -->
+    <!-- BINGO MODAL -->
+
     <div class="overlay" id="bingo-overlay">
 
         <div class="modal-box">
@@ -365,9 +381,13 @@
             <h2>BINGO!</h2>
 
             <div class="quote-box">
+
                 <span class="quote-text-main" id="quote-text"></span>
+
                 <span class="quote-author" id="quote-author"></span>
+
                 <span class="quote-context" id="quote-context"></span>
+
             </div>
 
             <button class="btn btn-primary" onclick="closeBingoModal()">
@@ -419,44 +439,101 @@
         ];
 
         const eurovisionFactsAndQuotes = [
+
             {
-                quote: "I've seen some strange things over the years, but that really takes the biscuit.",
-                author: "Graham Norton",
-                context: "Said during Moldova's 2011 performance."
+                quote: "ABBA won Eurovision in 1974 with Waterloo.",
+                author: "Eurovision Fact",
+                context: "Their victory launched one of the biggest pop careers in music history."
             },
+
             {
-                quote: "Europe, start voting now!",
-                author: "Petra Mede & Måns Zelmerlöw",
-                context: "Classic voting line from Stockholm 2016."
+                quote: "Ireland holds the record for most Eurovision wins.",
+                author: "Eurovision Fact",
+                context: "Ireland has won the contest seven times."
             },
+
             {
-                quote: "Eurovision's oldest performer was 95 years old.",
-                author: "Fun Fact",
-                context: "Emil Ramsauer represented Switzerland in 2013."
+                quote: "Sweden is tied with Ireland on seven victories.",
+                author: "Eurovision Fact",
+                context: "Sweden matched the record after Loreen won again in 2023."
             },
+
             {
-                quote: "In 1969, Eurovision ended in a four-way tie.",
-                author: "Fun Fact",
-                context: "No tiebreak rule existed at the time."
+                quote: "Loreen became the second artist ever to win Eurovision twice.",
+                author: "Eurovision Fact",
+                context: "She won with Euphoria in 2012 and Tattoo in 2023."
             },
+
             {
-                quote: "And the twelve points go to...",
-                author: "Every Jury Spokesperson",
-                context: "The most repeated phrase in Eurovision history."
+                quote: "Johnny Logan is the only person to win Eurovision three times.",
+                author: "Eurovision Fact",
+                context: "Twice as a singer and once as a songwriter."
+            },
+
+            {
+                quote: "Eurovision began in 1956.",
+                author: "Eurovision Fact",
+                context: "The first contest was held in Lugano, Switzerland."
+            },
+
+            {
+                quote: "Celine Dion once won Eurovision.",
+                author: "Eurovision Fact",
+                context: "She represented Switzerland in 1988."
+            },
+
+            {
+                quote: "Australia debuted in Eurovision in 2015.",
+                author: "Eurovision Fact",
+                context: "They were invited as a special guest country."
+            },
+
+            {
+                quote: "Eurovision was cancelled in 2020.",
+                author: "Eurovision Fact",
+                context: "It was the first cancellation in contest history."
+            },
+
+            {
+                quote: "The UK has finished second more than any other country.",
+                author: "Eurovision Fact",
+                context: "The United Kingdom has placed runner-up sixteen times."
+            },
+
+            {
+                quote: "Måneskin won Eurovision before becoming global stars.",
+                author: "Eurovision Fact",
+                context: "They won for Italy in 2021."
+            },
+
+            {
+                quote: "The shortest Eurovision song lasted 1 minute 27 seconds.",
+                author: "Eurovision Fact",
+                context: "Finland's 2015 entry holds the record."
             }
+
         ];
 
         let currentSize = 5;
         let completedLines = 0;
+        let lastFactIndex = -1;
 
         function shuffle(array) {
+
             let currentIndex = array.length;
 
             while (currentIndex !== 0) {
-                const randomIndex = Math.floor(Math.random() * currentIndex);
+
+                const randomIndex = Math.floor(
+                    Math.random() * currentIndex
+                );
+
                 currentIndex--;
 
-                [array[currentIndex], array[randomIndex]] = [
+                [
+                    array[currentIndex],
+                    array[randomIndex]
+                ] = [
                     array[randomIndex],
                     array[currentIndex]
                 ];
@@ -601,7 +678,8 @@
 
             let currentLinesFound = 0;
 
-            // Rows
+            // ROWS
+
             for (let r = 0; r < currentSize; r++) {
 
                 if (matrix[r].every(v => v)) {
@@ -609,7 +687,8 @@
                 }
             }
 
-            // Columns
+            // COLUMNS
+
             for (let c = 0; c < currentSize; c++) {
 
                 let full = true;
@@ -626,7 +705,8 @@
                 }
             }
 
-            // Main diagonal
+            // MAIN DIAGONAL
+
             let diag1 = true;
 
             for (let i = 0; i < currentSize; i++) {
@@ -640,7 +720,8 @@
                 currentLinesFound++;
             }
 
-            // Secondary diagonal
+            // SECONDARY DIAGONAL
+
             let diag2 = true;
 
             for (let i = 0; i < currentSize; i++) {
@@ -687,10 +768,20 @@
 
             bgText.classList.add('show');
 
+            let randomIndex;
+
+            do {
+
+                randomIndex = Math.floor(
+                    Math.random() * eurovisionFactsAndQuotes.length
+                );
+
+            } while (randomIndex === lastFactIndex);
+
+            lastFactIndex = randomIndex;
+
             const randomItem =
-                eurovisionFactsAndQuotes[
-                    Math.floor(Math.random() * eurovisionFactsAndQuotes.length)
-                ];
+                eurovisionFactsAndQuotes[randomIndex];
 
             document.getElementById('quote-text').textContent =
                 `"${randomItem.quote}"`;
