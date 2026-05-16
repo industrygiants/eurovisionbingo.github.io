@@ -11,7 +11,7 @@
             --secondary: #00ffff;
             --bg-start: #0f0c20;
             --bg-end: #2b1055;
-            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(255,255,255,0.08);
             --border-color: #44337a;
         }
 
@@ -23,7 +23,7 @@
             margin: 0;
             padding: 20px;
             min-height: 100vh;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
             color: white;
             display: flex;
@@ -35,15 +35,16 @@
         header {
             text-align: center;
             margin-bottom: 20px;
+            z-index: 5;
         }
 
         h1 {
             margin: 0;
-            color: var(--primary);
             font-size: 2.6rem;
+            color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+            text-shadow: 0 0 15px rgba(255,0,127,0.5);
         }
 
         .subtitle {
@@ -56,12 +57,13 @@
             display: none;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 0, 127, 0.12);
+            background: rgba(255,0,127,0.15);
             border: 2px solid var(--primary);
             border-radius: 999px;
             padding: 10px 20px;
             margin-bottom: 20px;
             font-weight: bold;
+            z-index: 5;
         }
 
         .score-banner span {
@@ -73,6 +75,7 @@
             display: none;
             width: 100%;
             max-width: 700px;
+            z-index: 5;
         }
 
         .screen.active {
@@ -99,13 +102,13 @@
 
         .btn {
             border: none;
-            padding: 14px 22px;
             border-radius: 10px;
+            padding: 14px 22px;
             cursor: pointer;
-            font-weight: bold;
             font-size: 1rem;
-            transition: 0.2s ease;
+            font-weight: bold;
             text-transform: uppercase;
+            transition: 0.2s ease;
             letter-spacing: 0.5px;
         }
 
@@ -161,12 +164,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            user-select: none;
             cursor: pointer;
+            user-select: none;
             transition: 0.2s ease;
-            font-weight: 600;
             overflow: hidden;
             word-break: break-word;
+            font-weight: 600;
         }
 
         .cell:hover {
@@ -175,15 +178,15 @@
         }
 
         .cell.checked {
-            background: rgba(255, 0, 127, 0.45);
+            background: rgba(255,0,127,0.45);
             border-color: var(--primary);
+            color: #ffd7ed;
             text-decoration: line-through;
-            color: #ffd5ec;
             transform: scale(0.96);
         }
 
         .cell.free {
-            background: rgba(0,255,255,0.12);
+            background: rgba(0,255,255,0.15);
             border-color: var(--secondary);
             font-weight: 700;
         }
@@ -205,7 +208,7 @@
             color: rgba(255,0,127,0.2);
             opacity: 0;
             pointer-events: none;
-            transition: 0.4s ease;
+            transition: all 0.5s ease;
             z-index: 1;
         }
 
@@ -372,7 +375,7 @@
 
     </div>
 
-    <!-- BINGO MODAL -->
+    <!-- MODAL -->
 
     <div class="overlay" id="bingo-overlay">
 
@@ -401,6 +404,7 @@
     <script>
 
         const prompts = [
+
             "Host makes a cringey Mozart or waltz joke.",
             "Spokesperson plugs their own music/brand.",
             "Graham Norton sighs heavily on mic.",
@@ -436,6 +440,7 @@
             "A key change.",
             "The performer interacts directly with a backing dancer.",
             "A confetti or glitter cannon goes off."
+
         ];
 
         const eurovisionFactsAndQuotes = [
@@ -443,73 +448,121 @@
             {
                 quote: "ABBA won Eurovision in 1974 with Waterloo.",
                 author: "Eurovision Fact",
-                context: "Their victory launched one of the biggest pop careers in music history."
+                context: "Their victory launched one of the most successful pop careers in history."
             },
 
             {
-                quote: "Ireland holds the record for most Eurovision wins.",
+                quote: "Ireland and Sweden share the record for most Eurovision wins.",
                 author: "Eurovision Fact",
-                context: "Ireland has won the contest seven times."
-            },
-
-            {
-                quote: "Sweden is tied with Ireland on seven victories.",
-                author: "Eurovision Fact",
-                context: "Sweden matched the record after Loreen won again in 2023."
-            },
-
-            {
-                quote: "Loreen became the second artist ever to win Eurovision twice.",
-                author: "Eurovision Fact",
-                context: "She won with Euphoria in 2012 and Tattoo in 2023."
+                context: "Both countries have won the contest seven times."
             },
 
             {
                 quote: "Johnny Logan is the only person to win Eurovision three times.",
                 author: "Eurovision Fact",
-                context: "Twice as a singer and once as a songwriter."
+                context: "He won twice as a singer and once as a songwriter for Ireland."
             },
 
             {
-                quote: "Eurovision began in 1956.",
+                quote: "Loreen became the second performer ever to win Eurovision twice.",
                 author: "Eurovision Fact",
-                context: "The first contest was held in Lugano, Switzerland."
+                context: "She won for Sweden in 2012 and again in 2023."
             },
 
             {
                 quote: "Celine Dion once won Eurovision.",
                 author: "Eurovision Fact",
-                context: "She represented Switzerland in 1988."
+                context: "She represented Switzerland in 1988 before becoming a global superstar."
             },
 
             {
-                quote: "Australia debuted in Eurovision in 2015.",
+                quote: "Eurovision first took place in 1956.",
                 author: "Eurovision Fact",
-                context: "They were invited as a special guest country."
+                context: "The inaugural contest was held in Lugano, Switzerland."
+            },
+
+            {
+                quote: "Australia first competed in Eurovision in 2015.",
+                author: "Eurovision Fact",
+                context: "They were invited as a special guest participant."
             },
 
             {
                 quote: "Eurovision was cancelled in 2020.",
                 author: "Eurovision Fact",
-                context: "It was the first cancellation in contest history."
+                context: "It was the first cancellation in the contest’s history."
             },
 
             {
-                quote: "The UK has finished second more than any other country.",
+                quote: "The United Kingdom has finished second more times than any other country.",
                 author: "Eurovision Fact",
-                context: "The United Kingdom has placed runner-up sixteen times."
+                context: "The UK has placed runner-up sixteen times."
             },
 
             {
-                quote: "Måneskin won Eurovision before becoming global stars.",
+                quote: "Norway has finished last more times than any other country.",
                 author: "Eurovision Fact",
-                context: "They won for Italy in 2021."
+                context: "Norway has received last place over ten times."
             },
 
             {
-                quote: "The shortest Eurovision song lasted 1 minute 27 seconds.",
+                quote: "The Eurovision voting phrase 'Douze Points' means 'twelve points' in French.",
                 author: "Eurovision Fact",
-                context: "Finland's 2015 entry holds the record."
+                context: "It became iconic because of Eurovision voting."
+            },
+
+            {
+                quote: "Finland won Eurovision for the first time in 2006.",
+                author: "Eurovision Fact",
+                context: "Lordi won with Hard Rock Hallelujah."
+            },
+
+            {
+                quote: "Måneskin won Eurovision before becoming global rock stars.",
+                author: "Eurovision Fact",
+                context: "Italy won the 2021 contest with Zitti e buoni."
+            },
+
+            {
+                quote: "The shortest Eurovision song lasted only 87 seconds.",
+                author: "Eurovision Fact",
+                context: "Finland's 2015 entry Aina Mun Pitää holds the record."
+            },
+
+            {
+                quote: "Eurovision songs cannot exceed three minutes in length.",
+                author: "Eurovision Fact",
+                context: "The time limit has existed for decades."
+            },
+
+            {
+                quote: "In 1969, Eurovision ended in a four-way tie.",
+                author: "Eurovision Fact",
+                context: "France, Spain, the UK and the Netherlands all shared victory."
+            },
+
+            {
+                quote: "Ukraine won Eurovision on only its second appearance.",
+                author: "Eurovision Fact",
+                context: "Ruslana won in 2004 with Wild Dances."
+            },
+
+            {
+                quote: "Portugal achieved its first Eurovision victory in 2017.",
+                author: "Eurovision Fact",
+                context: "Salvador Sobral won with Amar Pelos Dois."
+            },
+
+            {
+                quote: "The Eurovision audience regularly exceeds 150 million viewers.",
+                author: "Eurovision Fact",
+                context: "It remains one of the world's largest live television events."
+            },
+
+            {
+                quote: "The modern Eurovision trophy is shaped like a microphone.",
+                author: "Eurovision Fact",
+                context: "The glass trophy design was introduced in 2008."
             }
 
         ];
@@ -548,20 +601,20 @@
             completedLines = 0;
 
             document
-                .getElementById('menu-screen')
-                .classList.remove('active');
+                .getElementById("menu-screen")
+                .classList.remove("active");
 
             document
-                .getElementById('game-screen')
-                .classList.add('active');
+                .getElementById("game-screen")
+                .classList.add("active");
 
             document
-                .getElementById('score-counter-banner')
-                .style.display = 'flex';
+                .getElementById("score-counter-banner")
+                .style.display = "flex";
 
             document
-                .getElementById('lines-count-value')
-                .textContent = '0';
+                .getElementById("lines-count-value")
+                .textContent = "0";
 
             generateCard(size);
         }
@@ -569,32 +622,32 @@
         function returnToMenu() {
 
             document
-                .getElementById('game-screen')
-                .classList.remove('active');
+                .getElementById("game-screen")
+                .classList.remove("active");
 
             document
-                .getElementById('menu-screen')
-                .classList.add('active');
+                .getElementById("menu-screen")
+                .classList.add("active");
 
             document
-                .getElementById('score-counter-banner')
-                .style.display = 'none';
+                .getElementById("score-counter-banner")
+                .style.display = "none";
 
             document
-                .getElementById('bg-bingo-text')
-                .classList.remove('show');
+                .getElementById("bg-bingo-text")
+                .classList.remove("show");
         }
 
         function generateCard(size) {
 
             const shuffled = shuffle([...prompts]);
 
-            const grid = document.getElementById('bingo-grid');
+            const grid = document.getElementById("bingo-grid");
 
-            grid.className = 'grid';
+            grid.className = "grid";
             grid.classList.add(`grid-${size}x${size}`);
 
-            grid.innerHTML = '';
+            grid.innerHTML = "";
 
             const totalCells = size * size;
             const centerIndex = Math.floor(totalCells / 2);
@@ -603,15 +656,15 @@
 
             for (let i = 0; i < totalCells; i++) {
 
-                const cell = document.createElement('div');
+                const cell = document.createElement("div");
 
-                cell.className = 'cell';
+                cell.className = "cell";
                 cell.dataset.index = i;
 
                 if ((size === 3 || size === 5) && i === centerIndex) {
 
-                    cell.classList.add('free', 'checked');
-                    cell.innerHTML = '✨<br>FREE SPACE';
+                    cell.classList.add("free", "checked");
+                    cell.innerHTML = "✨<br>FREE SPACE";
 
                 } else {
 
@@ -619,10 +672,10 @@
                     promptIndex++;
                 }
 
-                cell.addEventListener('click', function () {
+                cell.addEventListener("click", function () {
 
-                    if (!this.classList.contains('free')) {
-                        this.classList.toggle('checked');
+                    if (!this.classList.contains("free")) {
+                        this.classList.toggle("checked");
                     }
 
                     checkBingo();
@@ -636,29 +689,29 @@
 
         function clearCard() {
 
-            const cells = document.querySelectorAll('.cell');
+            const cells = document.querySelectorAll(".cell");
 
             cells.forEach(cell => {
 
-                if (!cell.classList.contains('free')) {
-                    cell.classList.remove('checked');
+                if (!cell.classList.contains("free")) {
+                    cell.classList.remove("checked");
                 }
             });
 
             completedLines = 0;
 
             document
-                .getElementById('lines-count-value')
-                .textContent = '0';
+                .getElementById("lines-count-value")
+                .textContent = "0";
 
             document
-                .getElementById('bg-bingo-text')
-                .classList.remove('show');
+                .getElementById("bg-bingo-text")
+                .classList.remove("show");
         }
 
         function checkBingo() {
 
-            const cells = document.querySelectorAll('.cell');
+            const cells = document.querySelectorAll(".cell");
 
             let matrix = Array(currentSize)
                 .fill()
@@ -671,7 +724,7 @@
                 const row = Math.floor(idx / currentSize);
                 const col = idx % currentSize;
 
-                if (cell.classList.contains('checked')) {
+                if (cell.classList.contains("checked")) {
                     matrix[row][col] = true;
                 }
             });
@@ -736,7 +789,7 @@
             }
 
             document
-                .getElementById('lines-count-value')
+                .getElementById("lines-count-value")
                 .textContent = currentLinesFound;
 
             if (currentLinesFound > completedLines) {
@@ -748,25 +801,28 @@
             } else if (currentLinesFound < completedLines) {
 
                 completedLines = currentLinesFound;
-
-                if (completedLines === 0) {
-
-                    document
-                        .getElementById('bg-bingo-text')
-                        .classList.remove('show');
-                }
             }
         }
 
         function triggerBingo() {
 
-            const bgText = document.getElementById('bg-bingo-text');
+            const bgText = document.getElementById("bg-bingo-text");
 
-            bgText.classList.remove('show');
+            bgText.classList.remove("show");
 
             void bgText.offsetWidth;
 
-            bgText.classList.add('show');
+            bgText.classList.add("show");
+
+            // REMOVE BACKGROUND TEXT AFTER 5 SECONDS
+
+            setTimeout(() => {
+
+                bgText.classList.remove("show");
+
+            }, 5000);
+
+            // RANDOM FACT
 
             let randomIndex;
 
@@ -783,20 +839,20 @@
             const randomItem =
                 eurovisionFactsAndQuotes[randomIndex];
 
-            document.getElementById('quote-text').textContent =
+            document.getElementById("quote-text").textContent =
                 `"${randomItem.quote}"`;
 
-            document.getElementById('quote-author').textContent =
+            document.getElementById("quote-author").textContent =
                 `— ${randomItem.author}`;
 
-            document.getElementById('quote-context').textContent =
+            document.getElementById("quote-context").textContent =
                 randomItem.context;
 
             setTimeout(() => {
 
                 document
-                    .getElementById('bingo-overlay')
-                    .classList.add('active');
+                    .getElementById("bingo-overlay")
+                    .classList.add("active");
 
             }, 400);
         }
@@ -804,8 +860,8 @@
         function closeBingoModal() {
 
             document
-                .getElementById('bingo-overlay')
-                .classList.remove('active');
+                .getElementById("bingo-overlay")
+                .classList.remove("active");
         }
 
     </script>
