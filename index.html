@@ -26,6 +26,8 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
         }
 
         header {
@@ -51,21 +53,56 @@
             text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
         }
 
-        .grid-container {
+        .screen {
+            display: none;
             width: 100%;
             max-width: 650px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .menu-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-box h2 {
+            margin-top: 0;
+            color: #fff;
+            margin-bottom: 25px;
+        }
+
+        .menu-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .grid-container {
+            width: 100%;
             aspect-ratio: 1 / 1;
             margin-bottom: 25px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(5, 1fr);
-            gap: 10px;
             width: 100%;
             height: 100%;
         }
+
+        .grid-3x3 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 12px; }
+        .grid-4x4 { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); gap: 10px; }
+        .grid-5x5 { grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); gap: 8px; }
 
         .cell {
             background: var(--card-bg);
@@ -84,7 +121,6 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             word-wrap: break-word;
-            hyphens: auto;
         }
 
         .cell:hover {
@@ -118,13 +154,15 @@
         .controls {
             display: flex;
             gap: 15px;
+            width: 100%;
+            justify-content: center;
         }
 
         .btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-size: 1rem;
             font-weight: 700;
             border-radius: 8px;
@@ -153,79 +191,199 @@
             box-shadow: 0 6px 15px rgba(0, 255, 255, 0.3);
         }
 
+        .bingo-bg-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            font-size: 15vw;
+            font-weight: 900;
+            color: rgba(255, 0, 127, 0.12);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .bingo-bg-alert.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 12, 32, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: linear-gradient(135deg, #2b1055 0%, #0f0c20 100%);
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.5);
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+        }
+
+        .overlay.active .modal-box {
+            transform: translateY(0);
+        }
+
+        .modal-box h2 {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .quote-box {
+            font-size: 1.3rem;
+            font-style: italic;
+            margin: 20px 0;
+            line-height: 1.5;
+            color: #fff;
+            border-left: 4px solid var(--primary);
+            padding-left: 15px;
+            text-align: left;
+        }
+
+        .quote-author {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--secondary);
+            margin-top: 8px;
+            font-weight: bold;
+            font-style: normal;
+        }
+
         @media (max-width: 600px) {
-            body {
-                padding: 12px;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            .subtitle {
-                font-size: 0.9rem;
-            }
-            .grid {
-                gap: 6px;
-            }
-            .cell {
-                font-size: 0.72rem;
-                padding: 4px;
-                border-radius: 6px;
-                border-width: 1px;
-            }
-            .btn {
-                padding: 10px 18px;
-                font-size: 0.9rem;
-            }
+            body { padding: 12px; }
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 0.9rem; }
+            .cell { font-size: 0.68rem; padding: 3px; border-radius: 6px; }
+            .grid-3x3 .cell { font-size: 0.9rem; padding: 10px; }
+            .grid-4x4 .cell { font-size: 0.78rem; padding: 6px; }
+            .modal-box { padding: 20px; }
+            .modal-box h2 { font-size: 2.2rem; }
+            .quote-box { font-size: 1.05rem; }
         }
     </style>
 </head>
 <body>
+
+    <div class="bingo-bg-alert" id="bg-bingo-text">BINGO!</div>
 
     <header>
         <h1>Eurovision 2026</h1>
         <div class="subtitle">Grand Final Live Bingo</div>
     </header>
 
-    <div class="grid-container">
-        <div class="grid" id="bingo-grid"></div>
+    <div class="screen active" id="menu-screen">
+        <div class="menu-box">
+            <h2>Select Your Board Size</h2>
+            <div class="menu-options">
+                <button class="btn btn-secondary" onclick="startGame(3)">Easy (3x3 Grid)</button>
+                <button class="btn btn-secondary" onclick="startGame(4)">Normal (4x4 Grid)</button>
+                <button class="btn" onclick="startGame(5)">Hard (5x5 Grid)</button>
+            </div>
+        </div>
     </div>
-    
-    <div class="controls">
-        <button class="btn" onclick="generateCard()">🔀 New Card</button>
-        <button class="btn btn-secondary" onclick="clearCard()">🧹 Clear Marks</button>
+
+    <div class="screen" id="game-screen">
+        <div class="grid-container">
+            <div class="grid" id="bingo-grid"></div>
+        </div>
+        <div class="controls">
+            <button class="btn" onclick="returnToMenu()">📋 Main Menu</button>
+            <button class="btn btn-secondary" onclick="clearCard()">🧹 Reset Marks</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="bingo-overlay">
+        <div class="modal-box">
+            <h2>BINGO!</h2>
+            <div class="quote-box" id="quote-content">
+                "Quote text goes here..."
+                <span class="quote-author" id="quote-author">- Author</span>
+            </div>
+            <button class="btn" onclick="closeBingoModal()">Continue Playing</button>
+        </div>
     </div>
 
     <script>
         const prompts = [
-            "Wind machine activated", 
-            "Greece & Cyprus swap 12pts", 
-            "Mid-song costume change",
-            "Performer in sequins", 
-            "\"Thank you, Vienna!\"", 
-            "Pyrotechnics / fire cannons",
-            "Shirtless performer", 
-            "Fake snow or fog", 
-            "Awkward host joke",
-            "Exaggerated camera zoom", 
-            "Performer winks at camera", 
-            "Ethnic instrument used",
-            "Song NOT in English", 
-            "Country gets Nul Points", 
-            "Fan wearing face paint",
-            "Dramatic key change", 
-            "Performer lies on floor", 
-            "Host changes outfit",
-            "Strobe lights or lasers", 
-            "Screaming / whistle note", 
-            "Spontaneous rap segment",
-            "Voting link delay glitch", 
-            "Green-room tears", 
-            "\"Thank you Europe!\"",
-            "Crowd singing along",
-            "Prop falls over",
-            "Sparkler curtains",
-            "Presenter talks over postcard"
+            // --- 2026 Current Specifics ---
+            "UK's 'Look Mum No Computer' uses a homemade synth machine",
+            "Finland's heavy rock 'Liekinheitin' triggers a pyrotechnics wall",
+            "Australia's Delta Goodrem hits an operatic whistle note",
+            "Greece's 'Ferto' features heavy traditional ethnic dancing",
+            "Hosts Victoria Swarovski or Michael Ostrowski make a classical music pun",
+            "Greece & Cyprus trade maximum points",
+            "Jury connection to a capital city lags or glitches",
+            "A presenter or commentator references last year's 'Wasted Love' win",
+            "Green room group wave flags wildly at the camera",
+            "A song is performed entirely in French",
+
+            // --- Production & Staging Tropes ---
+            "Wind machine running at maximum blast",
+            "A dramatic mid-song costume transition",
+            "Performer wears an entirely sequined outfit",
+            "Sparkler rain curtains active on stage",
+            "A performer drops to lie flat on the floor",
+            "Strobe light or laser grid frenzy",
+            "Spontaneous or rapid rap segment",
+            "A backing dancer wears an opaque mask or helmet",
+            "Performer intentionally winks directly down the camera lens",
+            "Prop or mic stand falls over or gets stuck",
+
+            // --- Show, Hosts & Voting Classics ---
+            "An awkward joke from the hosts meets crowd silence",
+            "Spontaneous crying or green-room emotional tears",
+            "A country finishes with 'Nul Points' from the televote",
+            "Spokesperson takes way too long to read out the 12 points",
+            "Audience member spotted in full country face paint",
+            "A dramatic or sudden final-chorus key change",
+            "Presenter talks straight over a postcard introduction video",
+            "The crowd starts booing a specific set of points",
+            "\"Thank you, Vienna!\" yelled by an entry act",
+            "\"Europe, start voting now!\" is announced"
         ];
+
+        const eurovisionQuotes = [
+            { quote: "Europe, start voting now!", author: "The Hosts" },
+            { quote: "I’ve seen some strange things over the years, but that really takes the biscuit.", author: "Graham Norton" },
+            { quote: "And the twelve points go to...", author: "Every Jury Spokesperson" },
+            { quote: "Thank you for an amazing show! Goodnight Europe!", author: "The Winners" },
+            { quote: "You can see the absolute emotion in the green room tonight.", author: "Rylan Clark" },
+            { quote: "It’s glitter, it’s madness, it’s beautiful chaos.", author: "Eurovision Commentator" }
+        ];
+
+        let currentSize = 5; 
+        let bingoAchieved = false;
 
         function shuffle(array) {
             let currentIndex = array.length, randomIndex;
@@ -237,37 +395,127 @@
             return array;
         }
 
-        function generateCard() {
+        function startGame(size) {
+            currentSize = size;
+            bingoAchieved = false;
+            
+            document.getElementById('bg-bingo-text').classList.remove('show');
+            document.getElementById('menu-screen').classList.remove('active');
+            document.getElementById('game-screen').classList.add('active');
+
+            generateCard(size);
+        }
+
+        function returnToMenu() {
+            document.getElementById('game-screen').classList.remove('active');
+            document.getElementById('menu-screen').classList.add('active');
+            document.getElementById('bg-bingo-text').classList.remove('show');
+        }
+
+        function generateCard(size) {
             const shuffled = shuffle([...prompts]);
             const grid = document.getElementById('bingo-grid');
+            
+            grid.className = 'grid'; 
+            grid.classList.add(`grid-${size}x4`.replace('5x4', '5x5').replace('4x4', '4x4').replace('3x4', '3x3'));
             grid.innerHTML = ''; 
 
+            let totalCells = size * size;
             let promptIndex = 0;
+            let centerIndex = Math.floor(totalCells / 2);
 
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < totalCells; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
+                cell.dataset.index = i;
                 
-                if (i === 12) {
-                    cell.classList.add('free');
+                if ((size === 5 || size === 3) && i === centerIndex) {
+                    cell.classList.add('free', 'checked'); 
                     cell.innerHTML = '✨<br>FREE SPACE';
                 } else {
                     cell.textContent = shuffled[promptIndex];
                     promptIndex++;
                 }
 
-                cell.addEventListener('click', () => cell.classList.toggle('checked'));
+                cell.addEventListener('click', function() {
+                    if (this.classList.contains('free')) return; 
+                    this.classList.toggle('checked');
+                    checkBingo();
+                });
+
                 grid.appendChild(cell);
             }
         }
 
         function clearCard() {
             const cells = document.querySelectorAll('.cell');
-            cells.forEach(cell => cell.classList.remove('checked'));
+            cells.forEach(cell => {
+                if (!cell.classList.contains('free')) {
+                    cell.classList.remove('checked');
+                }
+            });
+            document.getElementById('bg-bingo-text').classList.remove('show');
+            bingoAchieved = false;
         }
 
-        // Initialize grid on launch
-        window.onload = generateCard;
+        function checkBingo() {
+            if (bingoAchieved) return; 
+
+            const cells = document.querySelectorAll('.cell');
+            let matrix = Array(currentSize).fill().map(() => Array(currentSize).fill(false));
+
+            cells.forEach(cell => {
+                let idx = parseInt(cell.dataset.index);
+                let row = Math.floor(idx / currentSize);
+                let col = idx % currentSize;
+                if (cell.classList.contains('checked')) {
+                    matrix[row][col] = true;
+                }
+            });
+
+            let win = false;
+
+            for (let r = 0; r < currentSize; r++) {
+                if (matrix[r].every(val => val === true)) win = true;
+            }
+
+            for (let c = 0; c < currentSize; c++) {
+                let colCheck = true;
+                for (let r = 0; r < currentSize; r++) {
+                    if (!matrix[r][c]) colCheck = false;
+                }
+                if (colCheck) win = true;
+            }
+
+            let diag1 = true;
+            let diag2 = true;
+            for (let i = 0; i < currentSize; i++) {
+                if (!matrix[i][i]) diag1 = false;
+                if (!matrix[i][currentSize - 1 - i]) diag2 = false;
+            }
+            if (diag1 || diag2) win = true;
+
+            if (win) {
+                triggerBingo();
+            }
+        }
+
+        function triggerBingo() {
+            bingoAchieved = true;
+            document.getElementById('bg-bingo-text').classList.add('show');
+
+            const randomQuote = eurovisionQuotes[Math.floor(Math.random() * eurovisionQuotes.length)];
+            document.getElementById('quote-content').firstChild.textContent = `"${randomQuote.quote}"`;
+            document.getElementById('quote-author').textContent = `— ${randomQuote.author}`;
+
+            setTimeout(() => {
+                document.getElementById('bingo-overlay').classList.add('active');
+            }, 400);
+        }
+
+        function closeBingoModal() {
+            document.getElementById('bingo-overlay').classList.remove('active');
+        }
     </script>
 </body>
 </html>
