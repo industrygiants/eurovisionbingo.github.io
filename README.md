@@ -1,1 +1,1 @@
-# eurovisionbingo.github.io
+# eurovision
